@@ -21,9 +21,11 @@ import {
   Dropdown,
   Pagination,
   Checkbox,
+  Tooltip,
   Badge,
   List,
-  Avatar
+  Avatar,
+  InputNumber
 } from "antd";
 
 import { LaptopOutlined, UserOutlined, NotificationOutlined,ClockCircleOutlined, DownOutlined } from '@ant-design/icons';
@@ -92,6 +94,11 @@ const label_style = {
 
 
 const App = (props) => {
+  const currentDate = moment();
+  const [sliderValue, setSliderValue] = useState(0);
+   const handleSliderChange = value => {
+        setSliderValue(value);
+    };
   const [vars, setVars] = useState(() => {
     let initialValue = lightVars;
     let storedVars;
@@ -456,11 +463,20 @@ const [mainForm] = Form.useForm();
                         min={0}
                         max={100}
                       ></InputNumber> */}
-                   
+  <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>    
                <Slider min={0}
-                        max={100}  step={10}
-                        // marks={{0: '0', 10: '10', 20: '20', 30: '30', 40: '40', 50: '50', 60: '60', 70: '70', 80: '80', 90: '90', 100: '100'}}
+                        max={100}  step={10} value={sliderValue}
+                    onChange={handleSliderChange}
+                    
+                    style={{ flex: 4, marginRight: '10px' }} 
                         ></Slider>
+               <InputNumber 
+          value={sliderValue} 
+          style={{ marginLeft: '10px',width: '50px' }} 
+          onChange={handleSliderChange}
+        />
+        </div>
+                         
               </Form.Item>
             </Col>
             {/* <Col span={1}></Col> */}
@@ -515,7 +531,7 @@ const [mainForm] = Form.useForm();
                     message: 'Please input Start Date',
                   },
                 ]}>
-                  <DatePicker onChange={onChange} />
+                  <DatePicker defaultValue={moment()} onChange={onChange} />
               </Form.Item>
             </Col>
             <Col span={5}>
